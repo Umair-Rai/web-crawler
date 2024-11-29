@@ -1,0 +1,21 @@
+
+<h1>BBC News Articles</h1>
+<button (click)="fetchArticles()" style="padding: 10px 20px; margin: 20px 0; font-size: 16px;">
+  Fetch Data
+</button>
+
+<div *ngIf="articles.length; else noData">
+  <h2>Articles:</h2>
+  <ul style="list-style-type: none; padding: 0;">
+    <li *ngFor="let article of articles" style="margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
+      <h3>{{ article.title }}</h3>
+      <p>{{ article.description || 'No description available.' }}</p>
+      <a [href]="article.url" target="_blank" style="color: blue; text-decoration: underline;">Read more</a>
+    </li>
+  </ul>
+</div>
+
+
+<ng-template #noData>
+  <p>No articles found. Click "Fetch Data" to load articles.</p>
+</ng-template>
