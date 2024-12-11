@@ -17,7 +17,7 @@ interface Article {
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  articles: Article[] = []; // Now typed as Article[], not any[]
+  articles: Article[] = []; // Typed as Article[], not any[]
 
   constructor(private http: HttpClient) {}
 
@@ -28,12 +28,12 @@ export class AppComponent {
       (response) => {
         this.articles = response.articles || [];
       },
-      (error: HttpErrorResponse) => {
-        // Now we explicitly type the error as HttpErrorResponse
-        if (error.status === 0) {
-          console.error('Network error or CORS issue');
-        } else {
+      (error: unknown) => {
+        // Safely check if error is an instance of HttpErrorResponse
+        if (error instanceof HttpErrorResponse) {
           console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
+        } else {
+          console.error('An unknown error occurred:', error);
         }
         alert('Failed to fetch articles. Please check your API key or try again later.');
       }
